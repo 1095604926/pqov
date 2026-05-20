@@ -9,7 +9,7 @@ LD  := $(CC)
 SRC_ALL := $(wildcard *.c)
 
 MAIN_SRC := test_uov.c
-KAT_SRC  := ./KAT/PQCgenKAT_sign.c
+KAT_SRC  := ./KAT/test_kat.c
 
 SRC := $(filter-out $(MAIN_SRC) $(KAT_SRC),$(SRC_ALL))
 
@@ -41,8 +41,8 @@ test:
 	@echo "Built test.exe"
 
 kat:
-	$(CC) $(CPPFLAGS) $(CFLAGS) -D_NIST_KAT_ $(SRC) $(KAT_SRC) $(LDFLAGS) $(LIBS) -o PQCgenKAT_sign.exe
-	@echo "Built PQCgenKAT_sign.exe"
+	$(CC) $(CPPFLAGS) $(CFLAGS) -D_NIST_KAT_ $(SRC) $(KAT_SRC) $(LDFLAGS) $(LIBS) -o test_kat.exe
+	@echo "Built test_kat.exe"
 
 clean:
 	rm -f *.exe

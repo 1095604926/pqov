@@ -21,8 +21,8 @@
 
 #if (!defined(_OV_CLASSIC))&&(!defined(_OV_PKC))&&(!defined(_OV_PKC_SKC))
 // #define _OV_CLASSIC
-#define _OV_PKC
-// #define _OV_PKC_SKC
+// #define _OV_PKC
+#define _OV_PKC_SKC
 #endif
 
 // -----------------------------------------------------------------------------
