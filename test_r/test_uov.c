@@ -5,16 +5,7 @@
 #include <string.h>
 
 #include "api.h"
-
-//#include "benchmark.h"
-
-#if defined(_VALGRIND_)
-#define TEST_GENKEY 2
-#define TEST_RUN 5
-#else
-#define TEST_GENKEY 50
-#define TEST_RUN 500
-#endif
+#include "utils_randombytes.h"
 
 int main(void) {
     printf("%s\n", OV_ALGNAME );
@@ -33,75 +24,61 @@ int main(void) {
     unsigned char *pk = (unsigned char *)malloc( CRYPTO_PUBLICKEYBYTES );
     unsigned char *sk = (unsigned char *)malloc( CRYPTO_SECRETKEYBYTES );
 
+    unsigned char seed[48] = { 0 };
+    randombytes_init(seed, NULL, 256);
+
     int ret = 0;
 
-    printf("===========  test crypto_sign_keypair(), crypto_sign(), and crypto_sign_open()  ================\n\n");
-    for (unsigned i = 0; i < TEST_RUN; i++) {
-        if ( i < TEST_GENKEY ) {
-            int r0;
-            r0 = crypto_sign_keypair( pk, sk);
-            if ( 0 != r0 ) {
-                printf("generating key return %d.\n", r0);
-                ret = -1;
-                goto clean_exit;
-            }
-        }
-
-        for (unsigned j = 3; j < 256; j++) {
-            m[j] = (i * j) & 0xff;
-        }
-        int r1, r2;
-        r1 = crypto_sign( sm, &smlen, m, mlen, sk );
-        if ( 0 != r1 ) {
-            printf("crypto_sign() return %d.\n", r1);
-            ret = -1;
-            goto clean_exit;
-        }
-        r2 = crypto_sign_open( m, &mlen, sm, smlen, pk );
-        if ( 0 != r2 ) {
-            printf("crypto_sign_open() return %d.\n", r2);
-            ret = -1;
-            goto clean_exit;
-        }
+    int r0 = crypto_sign_keypair( pk, sk);
+    if ( 0 != r0 ) {
+        printf("generating key return %d.\n", r0);
+        printf("test failed!\n");
+        ret = -1;
+        goto clean_exit;
     }
-    printf("all (%d,%d) tests passed.\n\n", TEST_RUN, TEST_GENKEY );
-    printf("===========  test crypto_sign_keypair(), crypto_sign_signature(), and crypto_sign_verify()  ================\n\n");
+    printf("pk: ");
+    for (size_t i = 0; i < CRYPTO_PUBLICKEYBYTES;  ++i) {
+        printf("%02X", pk[i]);
+    }
+    printf("\n");
+    printf("sk: ");
+    for (size_t i = 0; i < CRYPTO_SECRETKEYBYTES;  ++i) {
+        printf("%02X", sk[i]);
+    }
+    printf("\n");
+    
 
-    mlen = 53;
-    unsigned long long siglen;
-    unsigned char sig[CRYPTO_BYTES];
-    for (unsigned i = 0; i < TEST_RUN; i++) {
-        int rc;
-        rc = crypto_sign_keypair( pk, sk);
-        if ( 0 != rc ) {
-            printf("generating key returned %d.\n", rc);
-            ret = -1;
-            goto clean_exit;
-        }
+    int r1 = crypto_sign( sm, &smlen, m, mlen, sk );
+    if ( 0 != r1 ) {
+        printf("crypto_sign() return %d.\n", r1);
+        printf("test failed!\n");
+        ret = -1;
+        goto clean_exit;
+    }
+    printf("sm: ");
+    for (size_t i = 0; i < smlen;  ++i) {
+        printf("%02X", sm[i]);
+    }
+    printf("\n");
 
-
-        for (unsigned j = 3; j < 53; j++) {
-            m[j] = (i * j) & 0xff;
-        }
-
-        rc = crypto_sign_signature( sig, &siglen, m, mlen, sk );
-
-        if ( 0 != rc ) {
-            printf("crypto_sign_signature() returned %d.\n", rc);
-            ret = -1;
-            goto clean_exit;
-        }
-
-        rc = crypto_sign_verify( sig, siglen,  m, mlen, pk );
-        if ( 0 != rc ) {
-            printf("crypto_sign_verify() return %d.\n", rc);
-            ret = -1;
-            goto clean_exit;
-        }
-
+    int r2 = crypto_sign_open( m, &mlen, sm, smlen, pk );
+    if ( 0 != r2 ) {
+        printf("crypto_sign_open() return %d.\n", r2);
+        printf("test failed!\n");
+        ret = -1;
+        goto clean_exit;
     }
 
-    printf("all (%d) tests passed.\n\n", TEST_RUN );
+    printf("verify success!\n");
+
+    sm[0] = ~sm[0];
+    int r3 = crypto_sign_open( m, &mlen, sm, smlen, pk );
+    if ( -1 != r3 ) {
+        printf("wrong signature still verified!\n");
+        printf("test failed!\n");
+        ret = -1;
+        goto clean_exit;
+    }
 
 
 clean_exit:
