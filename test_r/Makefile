@@ -41,8 +41,8 @@ test:
 	@echo "Built test.exe"
 
 kat:
-	$(CC) $(CPPFLAGS) $(CFLAGS) -D_NIST_KAT_ $(SRC) $(KAT_SRC) $(LDFLAGS) $(LIBS) -o test_kat.exe
-	@echo "Built test_kat.exe"
+	$(CC) $(CPPFLAGS) $(CFLAGS) -D_NIST_KAT_ $(SRC) $(KAT_SRC) $(LDFLAGS) $(LIBS) -o kat.exe
+	@echo "Built kat.exe"
 
 clean:
 	rm -f *.exe
