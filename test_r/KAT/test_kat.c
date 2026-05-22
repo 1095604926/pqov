@@ -31,12 +31,19 @@ int main(void) {
     unsigned char       pk[CRYPTO_PUBLICKEYBYTES], sk[CRYPTO_SECRETKEYBYTES];
     unsigned char       pk_rsp[CRYPTO_PUBLICKEYBYTES], sk_rsp[CRYPTO_SECRETKEYBYTES];
 
-
+    #ifdef _4ROUND_AES_
+    sprintf(fn_rsp, "./KAT/PQCsignKAT_%d_4r.rsp", CRYPTO_PUBLICKEYBYTES);
+    if ( (fp_rsp = fopen(fn_rsp, "r")) == NULL ) {
+        printf("Couldn't open <%s> for read\n", fn_rsp);
+        return KAT_FILE_OPEN_ERROR;
+    }
+    #else
     sprintf(fn_rsp, "./KAT/PQCsignKAT_%d.rsp", CRYPTO_PUBLICKEYBYTES);
     if ( (fp_rsp = fopen(fn_rsp, "r")) == NULL ) {
         printf("Couldn't open <%s> for read\n", fn_rsp);
         return KAT_FILE_OPEN_ERROR;
     }
+    #endif
 
     done = 0;
     do{
