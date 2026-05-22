@@ -11,6 +11,7 @@
 // -----------------------------------------------------------------------------
 
 #define _4ROUND_AES_
+#define _NIST_KAT_
 
 #if (!defined(_OV256_112_44))&&(!defined(_OV16_160_64))&&(!defined(_OV256_184_72))&&(!defined(_OV256_244_96))
 #define _OV256_112_44
@@ -131,14 +132,7 @@
 #define OV_PUBLICKEYBYTES OV_PK_COMPRESSED_BYTES
 #endif
 
-
-#if defined(_BLAS_NEON_)
-#define PQOV_NAMESPACE_IMPL neon
-#elif defined(_BLAS_AVX2_)
-#define PQOV_NAMESPACE_IMPL avx2
-#else
 #define PQOV_NAMESPACE_IMPL ref
-#endif
 
 #define PQOV_CONCAT_(x1,x2,x3,x4,x5) x1##_##x2##x3##_##x4##_##x5
 #define PQOV_CONCAT(x1,x2,x3,x4,x5) PQOV_CONCAT_(x1,x2,x3,x4,x5)

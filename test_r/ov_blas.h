@@ -30,12 +30,7 @@
 #define batch_upper_matTr_x_mat     batch_upper_matTr_x_mat_gf16
 
 // TODO: this should be cleaner
-#if defined( _BLAS_M4F_)
-#include "blas_matrix_m4f.h"
-#define batch_quad_trimat_eval batch_quad_trimat_eval_gf16_m4f
-#else
 #define batch_quad_trimat_eval batch_quad_trimat_eval_gf16
-#endif
 
 
 
@@ -78,13 +73,7 @@
 #endif
 
 // TODO: this should be cleaner
-#if defined( _BLAS_M4F_)
-#include "blas_matrix_m4f.h"
-#define batch_quad_trimat_eval batch_quad_trimat_eval_gf256_m4f
-#else
 #define batch_quad_trimat_eval batch_quad_trimat_eval_gf256
-#endif
-
 
 #define gfmat_inv       gf256mat_inv
 

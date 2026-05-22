@@ -43,15 +43,7 @@ void accu_eval_quad_gf16( unsigned char *accu_res, const unsigned char *trimat, 
 
     // P1
     for (unsigned i = 0; i < v; i++) {
-        #if defined( _BLAS_AVX2_ )
-        unsigned i_start = i - (i & 31);
-        #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-        unsigned i_start = i - (i & 15);
-        #elif defined( _BLAS_UINT64_ )
-        unsigned i_start = i - (i & 7);
-        #else
         unsigned i_start = i - (i & 3);
-        #endif
         if ( !_x[i] ) {
             trimat += vec_len * (v - i);
             continue;
@@ -96,15 +88,7 @@ void accu_eval_quad_gf16( unsigned char *accu_res, const unsigned char *trimat, 
     }
     // P3
     for (unsigned i = 0; i < o; i++) {
-        #if defined( _BLAS_AVX2_ )
-        unsigned i_start = i - (i & 31);
-        #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-        unsigned i_start = i - (i & 15);
-        #elif defined( _BLAS_UINT64_ )
-        unsigned i_start = i - (i & 7);
-        #else
         unsigned i_start = i - (i & 3);
-        #endif
         if ( !_x[v + i] ) {
             trimat += vec_len * (o - i);
             continue;
@@ -175,27 +159,11 @@ void accu_eval_quad_gf256( unsigned char *accu_low, unsigned char *accu_high, co
     unsigned o = _PUB_N - _V;
     unsigned n = _PUB_N;
 
-    #if defined( _BLAS_AVX2_ )
-    unsigned tmpvec_len = ((vec_len + 31) >> 5) << 5;
-    #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-    unsigned tmpvec_len = ((vec_len + 15) >> 4) << 4;
-    #elif defined( _BLAS_UINT64_ )
-    unsigned tmpvec_len = ((vec_len + 7) >> 3) << 3;
-    #else
     unsigned tmpvec_len = ((vec_len + 3) >> 2) << 2;
-    #endif
 
     // P1
     for (unsigned i = 0; i < v; i++) {
-        #if defined( _BLAS_AVX2_ )
-        unsigned i_start = i - (i & 31);
-        #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-        unsigned i_start = i - (i & 15);
-        #elif defined( _BLAS_UINT64_ )
-        unsigned i_start = i - (i & 7);
-        #else
         unsigned i_start = i - (i & 3);
-        #endif
         for (unsigned j = i; j < v; j++) {
             _xixj[j] = _x[j];
         }
@@ -224,15 +192,7 @@ void accu_eval_quad_gf256( unsigned char *accu_low, unsigned char *accu_high, co
     }
     // P3
     for (unsigned i = v; i < n - 1; i++) {
-        #if defined( _BLAS_AVX2_ )
-        unsigned i_start = i - (i & 31);
-        #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-        unsigned i_start = i - (i & 15);
-        #elif defined( _BLAS_UINT64_ )
-        unsigned i_start = i - (i & 7);
-        #else
         unsigned i_start = i - (i & 3);
-        #endif
         for (unsigned j = i; j < n; j++) {
             _xixj[j] = _x[j];
         }
@@ -246,15 +206,7 @@ void accu_eval_quad_gf256( unsigned char *accu_low, unsigned char *accu_high, co
         }
     }
     for (unsigned i = n - 1; i < n; i++) {
-        #if defined( _BLAS_AVX2_ )
-        unsigned i_start = i - (i & 31);
-        #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-        unsigned i_start = i - (i & 15);
-        #elif defined( _BLAS_UINT64_ )
-        unsigned i_start = i - (i & 7);
-        #else
         unsigned i_start = i - (i & 3);
-        #endif
         for (unsigned j = i; j < n; j++) {
             _xixj[j] = _x[j];
         }
@@ -281,27 +233,11 @@ void accu_eval_quad_gf256( unsigned char *accu_low, unsigned char *accu_high, co
     unsigned o = _PUB_N - _V;
     unsigned n = _PUB_N;
 
-    #if defined( _BLAS_AVX2_ )
-    unsigned tmpvec_len = ((vec_len + 31) >> 5) << 5;
-    #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-    unsigned tmpvec_len = ((vec_len + 15) >> 4) << 4;
-    #elif defined( _BLAS_UINT64_ )
-    unsigned tmpvec_len = ((vec_len + 7) >> 3) << 3;
-    #else
     unsigned tmpvec_len = ((vec_len + 3) >> 2) << 2;
-    #endif
 
     // P1
     for (unsigned i = 0; i < v; i++) {
-        #if defined( _BLAS_AVX2_ )
-        unsigned i_start = i - (i & 31);
-        #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-        unsigned i_start = i - (i & 15);
-        #elif defined( _BLAS_UINT64_ )
-        unsigned i_start = i - (i & 7);
-        #else
         unsigned i_start = i - (i & 3);
-        #endif
         for (unsigned j = i; j < v; j++) {
             _xixj[j] = _x[j];
         }
@@ -328,15 +264,7 @@ void accu_eval_quad_gf256( unsigned char *accu_low, unsigned char *accu_high, co
     }
     // P3
     for (unsigned i = v; i < n - 1; i++) {
-        #if defined( _BLAS_AVX2_ )
-        unsigned i_start = i - (i & 31);
-        #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-        unsigned i_start = i - (i & 15);
-        #elif defined( _BLAS_UINT64_ )
-        unsigned i_start = i - (i & 7);
-        #else
         unsigned i_start = i - (i & 3);
-        #endif
         for (unsigned j = i; j < n; j++) {
             _xixj[j] = _x[j];
         }
@@ -350,15 +278,7 @@ void accu_eval_quad_gf256( unsigned char *accu_low, unsigned char *accu_high, co
     }
 
     for (unsigned i = n - 1; i < n; i++) {
-        #if defined( _BLAS_AVX2_ )
-        unsigned i_start = i - (i & 31);
-        #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-        unsigned i_start = i - (i & 15);
-        #elif defined( _BLAS_UINT64_ )
-        unsigned i_start = i - (i & 7);
-        #else
         unsigned i_start = i - (i & 3);
-        #endif
         for (unsigned j = i; j < n; j++) {
             _xixj[j] = _x[j];
         }
@@ -380,15 +300,7 @@ void accu_eval_quad_gf256( unsigned char *accu_low, unsigned char *accu_high, co
 static
 void madd_reduce_gf256( unsigned char *y, unsigned char *tmp_low, unsigned char *tmp_high, unsigned vec_len ) {
 
-    #if defined( _BLAS_AVX2_ )
-    unsigned tmpvec_len = ((vec_len + 31) >> 5) << 5;
-    #elif defined( _BLAS_SSE_ )||defined( _BLAS_NEON_ )
-    unsigned tmpvec_len = ((vec_len + 15) >> 4) << 4;
-    #elif defined( _BLAS_UINT64_ )
-    unsigned tmpvec_len = ((vec_len + 7) >> 3) << 3;
-    #else
     unsigned tmpvec_len = ((vec_len + 3) >> 2) << 2;
-    #endif
     unsigned char tmp_y[TMPVEC_LEN * 4];
 
     for (int i = 15; i > 8; i--) {

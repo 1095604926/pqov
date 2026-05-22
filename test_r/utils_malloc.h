@@ -16,9 +16,7 @@ static inline void ov_free(void *ptr, size_t len){
     free(ptr);
 }
 
-#if !defined(PQM4)
 #define _HAS_MEMALIGN_
-#endif
 
 #if defined(__GNUC__) || defined(__clang__)
 #define PQOV_ALIGN  __attribute__((aligned(32)))

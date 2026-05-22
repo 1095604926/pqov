@@ -38,15 +38,9 @@ void calculate_F2( unsigned char *S, const unsigned char *P1, const unsigned cha
 }
 
 
-#if defined(_BLAS_M4F_) &&  (defined(_OV_PKC) || defined(_OV_PKC_SKC))
-void ov_pkc_calculate_F_from_Q( sk_t *Fs) {
-    ov_pkc_calculate_F_from_Q_m4f( Fs );
-}
-#else
 void ov_pkc_calculate_F_from_Q( sk_t *Fs) {
     calculate_F2( Fs->S, Fs->P1, Fs->S, Fs->O );
 }
-#endif
 
 
 

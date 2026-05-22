@@ -13,33 +13,13 @@
 extern "C" {
 #endif
 
-#if defined(_UTILS_OPENSSL_) || defined(_UTILS_SUPERCOP_)
+#if defined(_UTILS_OPENSSL_)
 
 #include <openssl/evp.h>
 
 typedef struct hash_ctx {
   EVP_MD_CTX *x;
 } hash_ctx;
-
-#elif defined(_UTILS_PQM4_)
-
-#include "fips202.h"
-
-#if defined(_HASH_SHAKE128_)
-#define hash_ctx shake128incctx
-#else
-// default
-#define hash_ctx shake256incctx
-#endif
-
-#elif defined(_UTILS_OQS_)
-#include <oqs/sha3.h>
-#if defined(_HASH_SHAKE128_)
-#define hash_ctx OQS_SHA3_shake128_inc_ctx
-#else
-// default
-#define hash_ctx OQS_SHA3_shake256_inc_ctx
-#endif
 
 #else
 

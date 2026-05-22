@@ -159,9 +159,8 @@ int ov_verify( const uint8_t *message, size_t mlen, const uint8_t *signature, co
 
 
 #if defined(_OV_PKC) || defined(_OV_PKC_SKC)
-#if !defined(PQM4)
+
 #define _MALLOC_
-#endif
 
 #if defined(_OV_PKC_SKC)
 int ov_expand_and_sign( uint8_t *signature, const csk_t *csk, const uint8_t *message, size_t mlen ) {
@@ -206,15 +205,7 @@ int ov_expand_and_verify( const uint8_t *message, size_t mlen, const uint8_t *si
     pk_t *pk = &_pk;
     #endif
 
-    #if _GFSIZE == 16  && (defined(_BLAS_NEON_) || defined(_BLAS_M4F_))
-    uint8_t xi[_PUB_N];
-    for (int i = 0; i < _PUB_N; i++) {
-        xi[i] = gfv_get_ele( signature, i );
-    }
-    expand_pk_predicate( pk, cpk, xi );
-    #else
     expand_pk( pk, cpk );
-    #endif
     rc = ov_verify( message, mlen, signature, pk );
 
 

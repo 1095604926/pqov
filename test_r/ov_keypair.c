@@ -19,9 +19,7 @@
 #include "utils_hash.h"
 #include "utils_malloc.h"
 
-#if !defined(PQM4)
 #define _MALLOC_
-#endif
 
 
 
@@ -137,11 +135,7 @@ int expand_sk( sk_t *sk, const unsigned char *sk_seed ) {
 
     prng_release_publicinputs(&prng1);
     // calcuate the parts of sk according to pk.
-    #if defined(_BLAS_M4F_)
-    ov_pkc_calculate_F_from_Q( sk );
-    #else
     calculate_F2( sk->S, sk->P1, sk->S, sk->O );
-    #endif
     return 0;
 }
 
@@ -183,12 +177,7 @@ int generate_keypair_pkc( cpk_t *pk, sk_t *sk, const unsigned char *sk_seed ) {
     prng_gen_publicinputs(&prng1, sk->S, sizeof(sk->S) );
     prng_release_publicinputs(&prng1);
 
-    #if defined(_BLAS_M4F_)
-    calculate_P3( pk->P3, sk->P1, sk->S, sk->O );
-    ov_pkc_calculate_F_from_Q( sk );     // calcuate the rest parts of secret key from Qs and S,T
-    #else
     calculate_F2_P3( sk->S, pk->P3, sk->P1, sk->S, sk->O );
-    #endif
     return 0;
 }
 

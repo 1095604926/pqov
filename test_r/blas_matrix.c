@@ -10,96 +10,6 @@
 
 
 #include "config.h"
-// choosing the implementations depends on the macros _BLAS_AVX2_ and _BLAS_SSE_
-
-//
-// These functions of matrix operations are considered heavy funcitons.
-// The cost of an extra funciton call is relatively smaller than computations.
-//
-
-
-#if defined( _BLAS_AVX2_ ) && defined( _BLAS_GFNI_ )
-
-#include "blas_matrix_avx2_gfni.h"
-#include "blas_matrix_avx2.h"
-
-#define gf16mat_prod_impl             gf16mat_prod_gfni
-#define gf256mat_prod_impl            gf256mat_prod_avx2_gfni
-
-#define gf16mat_prod_multab_impl      gf16mat_prod_multab_gfni
-
-#define gf256mat_gaussian_elim_impl   gf256mat_gaussian_elim_avx2_gfni
-#define gf256mat_back_substitute_impl gf256mat_back_substitute_avx2_gfni
-#define gf16mat_gaussian_elim_impl   gf16mat_gaussian_elim_avx2
-#define gf16mat_back_substitute_impl gf16mat_back_substitute_avx2
-
-#elif defined( _BLAS_AVX2_ )
-
-#include "blas_matrix_avx2.h"
-
-#define gf16mat_prod_impl             gf16mat_prod_avx2
-#define gf256mat_prod_impl            gf256mat_prod_avx2
-
-#define gf16mat_prod_multab_impl      gf16mat_prod_multab_avx2
-#define gf256mat_prod_multab_impl     gf256mat_prod_multab_avx2
-
-#define gf256mat_gaussian_elim_impl   gf256mat_gaussian_elim_avx2
-#define gf256mat_back_substitute_impl gf256mat_back_substitute_avx2
-#define gf16mat_gaussian_elim_impl   gf16mat_gaussian_elim_avx2
-#define gf16mat_back_substitute_impl gf16mat_back_substitute_avx2
-
-#elif defined( _BLAS_SSE_ )
-
-#include "blas_matrix_sse.h"
-
-#define gf16mat_prod_impl             gf16mat_prod_sse
-#define gf256mat_prod_impl            gf256mat_prod_sse
-
-#define gf16mat_prod_multab_impl      gf16mat_prod_multab_sse
-#define gf256mat_prod_multab_impl     gf256mat_prod_multab_sse
-
-#include "blas_matrix_ref.h"
-
-#define gf256mat_gaussian_elim_impl   gf256mat_gaussian_elim_ref
-#define gf256mat_back_substitute_impl gf256mat_back_substitute_ref
-#define gf16mat_gaussian_elim_impl   gf16mat_gaussian_elim_ref
-#define gf16mat_back_substitute_impl gf16mat_back_substitute_ref
-
-
-#elif defined( _BLAS_NEON_ )
-
-#include "blas_matrix_neon.h"
-
-#define gf16mat_prod_impl             gf16mat_prod_neon
-#define gf256mat_prod_impl            gf256mat_prod_neon
-
-#define gf16mat_prod_multab_impl      gf16mat_prod_multab_neon
-#define gf256mat_prod_multab_impl     gf256mat_prod_multab_neon
-
-#define gf256mat_gaussian_elim_impl   gf256mat_gaussian_elim_neon
-#define gf256mat_back_substitute_impl gf256mat_back_substitute_neon
-#define gf16mat_gaussian_elim_impl    gf16mat_gaussian_elim_neon
-#define gf16mat_back_substitute_impl  gf16mat_back_substitute_neon
-
-
-#elif defined( _BLAS_M4F_)
-
-#include "blas_matrix_m4f.h"
-#include "blas_matrix_ref.h"
-
-#ifdef _USE_GF16
-#define gf16mat_prod_impl             gf16mat_prod_m4f
-#define gf16mat_gaussian_elim_impl   gf16mat_gaussian_elim_m4f
-#define gf16mat_back_substitute_impl gf16mat_back_substitute_ref
-
-#else
-#define gf256mat_prod_impl            gf256mat_prod_m4f
-#define gf256mat_gaussian_elim_impl   gf256mat_gaussian_elim_m4f
-#define gf256mat_back_substitute_impl gf256mat_back_substitute_ref
-
-#endif
-
-#else
 
 #include "blas_matrix_ref.h"
 
@@ -110,9 +20,6 @@
 #define gf256mat_back_substitute_impl gf256mat_back_substitute_ref
 #define gf16mat_gaussian_elim_impl   gf16mat_gaussian_elim_ref
 #define gf16mat_back_substitute_impl gf16mat_back_substitute_ref
-
-#endif
-
 
 #ifdef _USE_GF16
 

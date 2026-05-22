@@ -180,11 +180,7 @@ void batch_quad_trimat_eval_gf16( unsigned char *y, const unsigned char *trimat,
 void batch_trimat_madd_multab_gf16( unsigned char *bC, const unsigned char *btriA,
                                     const unsigned char *B, unsigned Bheight, unsigned size_Bcolvec, unsigned Bwidth, unsigned size_batch ) {
     (void)size_Bcolvec; // un-used variable
-    #if defined(_BLAS_NEON_)
-    const unsigned w_multab = 4;
-    #else
     const unsigned w_multab = 5;
-    #endif
 
 #define MAX_O_BYTE  (32)
     uint8_t tmp_c[MAX_O_BYTE];
@@ -206,11 +202,7 @@ void batch_trimat_madd_multab_gf16( unsigned char *bC, const unsigned char *btri
 void batch_trimatTr_madd_multab_gf16( unsigned char *bC, const unsigned char *btriA,
                                       const unsigned char *B, unsigned Bheight, unsigned size_Bcolvec, unsigned Bwidth, unsigned size_batch ) {
     (void)size_Bcolvec; // un-used variable
-    #if defined(_BLAS_NEON_)
-    const unsigned w_multab = 4;
-    #else
     const unsigned w_multab = 5;
-    #endif
 
 #define MAX_O_BYTE  (32)
 #define MAX_V      (96)
@@ -241,11 +233,7 @@ void batch_2trimat_madd_multab_gf16( unsigned char *bC, const unsigned char *btr
                                      const unsigned char *B, unsigned Bheight, unsigned size_Bcolvec, unsigned Bwidth, unsigned size_batch ) {
 
     (void)size_Bcolvec; // un-used variable
-    #if defined(_BLAS_NEON_)
-    const unsigned w_multab = 4;
-    #else
     const unsigned w_multab = 5;
-    #endif
 
 #define MAX_O_BYTE  (32)
 #define MAX_V      (96)
@@ -285,11 +273,7 @@ void batch_upper_matTr_x_mat_multab_gf16( unsigned char *bC, const unsigned char
 #undef MAX_O_BYTE
 #undef MAX_O
     (void)size_Acolvec; // un-used variable
-    #if defined(_BLAS_NEON_)
-    const unsigned w_multab = 4;
-    #else
     const unsigned w_multab = 5;
-    #endif
     unsigned Atr_height = Awidth;
     unsigned Atr_width  = Aheight;
     for (unsigned i = 0; i < Atr_height; i++) {
@@ -317,11 +301,7 @@ void batch_quad_trimat_eval_multab_gf16( unsigned char *y, const unsigned char *
 
         trimat += (dim - i) * size_batch;
 // XXX: base function has to know behaivors of derived functions.
-        #if defined(_BLAS_NEON_)
-        multab_x += 16;
-        #else
         multab_x += 32;
-        #endif
     }
 }
 

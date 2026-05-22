@@ -17,11 +17,7 @@ extern  "C" {
 #include "params.h"
 
 
-#if defined(_UTILS_SUPERCOP_)||defined(_UTILS_PQM4_)
-
-#include "randombytes.h"
-
-#elif defined(_NIST_KAT_) && defined(_UTILS_OPENSSL_)
+#if defined(_NIST_KAT_) && defined(_UTILS_OPENSSL_)
 
 #include "rng.h"
 

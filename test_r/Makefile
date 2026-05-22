@@ -37,11 +37,11 @@ LIBS    := -lcrypto
 all: test
 
 test:
-	$(CC) $(CPPFLAGS) $(CFLAGS) -D_NIST_KAT_ $(SRC) $(MAIN_SRC) $(LDFLAGS) $(LIBS) -o test.exe
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(SRC) $(MAIN_SRC) $(LDFLAGS) $(LIBS) -o test.exe
 	@echo "Built test.exe"
 
 kat:
-	$(CC) $(CPPFLAGS) $(CFLAGS) -D_NIST_KAT_ $(SRC) $(KAT_SRC) $(LDFLAGS) $(LIBS) -o kat.exe
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(SRC) $(KAT_SRC) $(LDFLAGS) $(LIBS) -o kat.exe
 	@echo "Built kat.exe"
 
 clean:
