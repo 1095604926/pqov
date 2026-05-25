@@ -17,7 +17,7 @@ extern  "C" {
 #include "params.h"
 
 
-#if defined(_NIST_KAT_) && defined(_UTILS_OPENSSL_)
+#if defined(_NIST_KAT_)
 
 #include "rng.h"
 

@@ -29,9 +29,9 @@
 //
 // choose implementations for SHAKE256, AES128CTR, and randombytes() functions
 //
-#if !defined(_UTILS_OPENSSL_)
-#define _UTILS_OPENSSL_
-#endif
+// #if !defined(_UTILS_OPENSSL_)
+// #define _UTILS_OPENSSL_
+// #endif
 
 //
 // Options for randombytes()
